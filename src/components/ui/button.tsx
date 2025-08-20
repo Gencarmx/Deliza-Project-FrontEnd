@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
 
   // Variant styles
   const variantStyles: Record<string, string> = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    primary: 'bg-[#976b31] text-white hover:bg-[#6E593E] focus:ring-blue-500',
     outline: 'border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
   };
 

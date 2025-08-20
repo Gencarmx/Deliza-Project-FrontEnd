@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/button";
 import { useRegister, RegisterFormValues } from "../hooks/useRegister";
+import Image from "next/image";
+import { LucideLanguages } from "lucide-react";
 
 export default function RegisterForm() {
   const { register, loading, error } = useRegister();
@@ -33,175 +35,242 @@ export default function RegisterForm() {
     register(form);
   };
 
+  const [selectedOption, setSelectedOption] = useState<string | undefined>();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const options = ["Español", "Ingles", "Frances", "Alemán"];
+
+  const handleSelect = (option: string) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <Card className="w-full max-w-lg p-6 space-y-4">
-        <h1 className="text-2xl font-semibold text-center text-black">Crear Cuenta</h1>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/** Datos de usuario */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-black">Nombre</label>
-              <input
-                type="text"
-                value={form.nombre}
-                onChange={handleChange("nombre")}
-                required
-                className="mt-1 block w-full rounded border px-3 py-2 text-black"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-black">
-                Apellido Paterno
-              </label>
-              <input
-                type="text"
-                value={form.apellido_paterno}
-                onChange={handleChange("apellido_paterno")}
-                required
-                className="mt-1 block w-full rounded border px-3 py-2 text-black"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-black">
-                Apellido Materno
-              </label>
-              <input
-                type="text"
-                value={form.apellido_materno}
-                onChange={handleChange("apellido_materno")}
-                required
-                className="mt-1 block w-full rounded border px-3 py-2 text-black"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-black">
-              Correo Electrónico
-            </label>
-            <input
-              type="email"
-              value={form.correo_electronico}
-              onChange={handleChange("correo_electronico")}
-              required
-              className="mt-1 block w-full rounded border px-3 py-2 text-black"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-black">Teléfono</label>
-            <input
-              type="tel"
-              value={form.numero_telefono}
-              onChange={handleChange("numero_telefono")}
-              required
-              className="mt-1 block w-full rounded border px-3 py-2 text-black"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-black">Contraseña</label>
-            <input
-              type="password"
-              value={form.contrasena}
-              onChange={handleChange("contrasena")}
-              required
-              className="mt-1 block w-full rounded border px-3 py-2 text-black"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-black">Registrarme como</label>
-            <select
-              value={form.tipo_usuario}
-              onChange={handleChange("tipo_usuario")}
-              className="mt-1 block w-full rounded border px-3 py-2 text-black"
-            >
-              <option value="cliente">Cliente</option>
-              <option value="repartidor">Repartidor</option>
-            </select>
-          </div>
-
-          {form.tipo_usuario === "repartidor" && (
-            <div className="space-y-4 border-t pt-4">
-              {/* Disponibilidad */}
-              <div>
-                <label className="block text-sm font-medium text-black">
-                  Disponibilidad
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ej. 08:00-18:00"
-                  value={form.disponibilidad}
-                  onChange={handleChange("disponibilidad")}
-                  required
-                  className="mt-1 block w-full rounded border px-3 py-2 text-black"
-                />
-              </div>
-
-              {/* Tipo de vehículo */}
-              <div>
-                <label className="block text-sm font-medium text-black">
-                  Tipo de vehículo
-                </label>
-                <select
-                  value={form.tipo_vehiculo}
-                  onChange={handleChange("tipo_vehiculo")}
-                  required
-                  className="mt-1 block w-full rounded border px-3 py-2 text-black"
+    <div className="relative isolate min-h-screen">
+      <div className="hidden md:block absolute inset-0 -z-10 pointer-events-none">
+        <Image
+          src="/img/fondo3.jpg"
+          alt="Background"
+          fill
+          className="object-cover opacity-70"
+          priority
+        />
+      </div>
+      <div className="absolute top-0 left-0 h-full w-full md:w-1/2 bg-[#dad3cc] flex items-center justify-center p-6">
+        <div className="absolute top-5 left-5">
+          <h1 className="text-black text-4xl font-medium">GENCAR</h1>
+        </div>
+        <div className="absolute top-5 right-5">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="cursor-pointer border-2 border-black text-black"
+          >
+            <LucideLanguages className="text-black size-6" />
+            {selectedOption}
+          </button>
+          {isOpen && (
+            <div className="absolute right-0 mt-2 bg-white border border-gray-300 rounded shadow-lg w-32 z-10 ">
+              {options.map((option) => (
+                <div
+                  key={option}
+                  onClick={() => handleSelect(option)}
+                  className="px-4 py-2 hover:bg-gray-300 cursor-pointer text-black"
                 >
-                  <option value="">Selecciona uno</option>
-                  <option value="bicicleta">Bicicleta</option>
-                  <option value="moto">Motocicleta</option>
-                </select>
-              </div>
-
-              {/* Matrícula */}
-              <div>
-                <label className="block text-sm font-medium text-black">Matrícula</label>
-                <input
-                  type="text"
-                  placeholder="Ej. ABC123"
-                  value={form.matricula}
-                  onChange={handleChange("matricula")}
-                  required
-                  className="mt-1 block w-full rounded border px-3 py-2 text-black"
-                />
-              </div>
-
-              {/* Licencia */}
-              <div>
-                <label className="block text-sm font-medium text-black">Licencia</label>
-                <input
-                  type="text"
-                  placeholder="7–10 dígitos"
-                  value={form.licencia}
-                  onChange={handleChange("licencia")}
-                  required
-                  className="mt-1 block w-full rounded border px-3 py-2 text-black"
-                />
-              </div>
+                  {option}
+                </div>
+              ))}
             </div>
           )}
+        </div>
+        <div className="flex items-center justify-center h-full w-full">
+          <Card className="w-full max-w-xl p-6 space-y-2 ">
+            <h1 className="text-xl font-semibold text text-black text-start">
+              Crea tu cuenta
+            </h1>
+            {error && <p className="text-red-500 text-center">{error}</p>}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/** Datos de usuario */}
+              <div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <input
+                    type="text"
+                    value={form.nombre}
+                    onChange={(e) => {
+                      const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]*$/;
+                      if (regex.test(e.target.value)) {
+                        handleChange("nombre")(e); 
+                      }
+                    }}
+                    required
+                    placeholder="Nombre Completo (Sin caracteres especiales)"
+                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div>
+              </div>
+              {/* <div>
+                  <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                  <input
+                    type="text"
+                    value={form.apellido_paterno}
+                    onChange={handleChange("apellido_paterno")}
+                    required
+                    placeholder="Apellido Paterno"
+                    className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div>
+                </div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                  <input
+                    type="text"
+                    value={form.apellido_materno}
+                    onChange={handleChange("apellido_materno")}
+                    required
+                    placeholder="Apellido Materno"
+                    className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div> */}
 
-          <Button
-            type="submit"
-            className="w-full py-2 bg-yellow-400 text-black hover:bg-yellow-500"
-            disabled={loading}
-          >
-            {loading ? "Creando…" : "Crear cuenta"}
-          </Button>
-        </form>
+              <div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <input
+                    type="email"
+                    value={form.correo_electronico}
+                    onChange={handleChange("correo_electronico")}
+                    required
+                    placeholder="Correo Electrónico"
+                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <input
+                    type="tel"
+                    value={form.numero_telefono}
+                    onChange={handleChange("numero_telefono")}
+                    required
+                    placeholder="Número de Teléfono"
+                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div>
+              </div>
 
-        <p className="text-sm text-center text-gray-600">
-          ¿Ya tienes cuenta?{" "}
-          <a href="/login" className="text-yellow-500 hover:underline">
-            Inicia sesión
-          </a>
-        </p>
-      </Card>
+              <div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <input
+                    type="password"
+                    value={form.contrasena}
+                    onChange={handleChange("contrasena")}
+                    required
+                    placeholder="Contraseña"
+                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  />
+                </div>
+              </div>
+
+              {/* <div>
+                <div className="flex items-center">
+                  <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                <select
+                  value={form.tipo_usuario}
+                  onChange={handleChange("tipo_usuario")}
+                  className="mmt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                >
+                  <option value="cliente">Cliente</option>
+                  <option value="repartidor">Repartidor</option>
+                </select>
+              </div>
+              </div> */}
+
+              {/* Campos adicionales para repartidores */}
+
+              {form.tipo_usuario === "repartidor" && (
+                <div className="space-y-4 border-t pt-4">
+                  Disponibilidad
+                  <div>
+                    <div className="flex items-center">
+                      <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                      <input
+                        type="text"
+                        placeholder="Disponibilidad (ej. de 9:00am a 5:00pm)"
+                        value={form.disponibilidad}
+                        onChange={handleChange("disponibilidad")}
+                        required
+                        className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                      />
+                    </div>
+                  </div>
+                  {/* Tipo de vehículo */}
+                  <div>
+                    <div className="flex items-center">
+                      <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                      <select
+                        value={form.tipo_vehiculo}
+                        onChange={handleChange("tipo_vehiculo")}
+                        required
+                        className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                      >
+                        <option value="">Selecciona tu vehiculo</option>
+                        <option value="bicicleta">Bicicleta</option>
+                        <option value="moto">Motocicleta</option>
+                      </select>
+                    </div>
+                  </div>
+                  {/* Matrícula */}
+                  <div>
+                    <div className="flex items-center">
+                      <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                      <input
+                        type="text"
+                        placeholder="Matricula (Ej. ABC123)"
+                        value={form.matricula}
+                        onChange={handleChange("matricula")}
+                        required
+                        className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                      />
+                    </div>
+                  </div>
+                  {/* Licencia */}
+                  <div>
+                    <div className="flex items-center">
+                      <div className=" mt-1 w-2 h-12 bg-[#976b31]"></div>
+                      <input
+                        type="text"
+                        placeholder="Licencia (7–10 dígitos)"
+                        value={form.licencia}
+                        onChange={handleChange("licencia")}
+                        required
+                        className="mt-1 block h-12 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                className="w-full h-25 py-2 text-black hover:bg-[#947955]"
+                disabled={loading}
+              >
+                {loading ? "Creando…" : "Registrarse"}
+              </Button>
+            </form>
+
+            <p className="text-lg text-center text-gray-600">
+              ¿Ya tienes cuenta?{" "}
+              <a href="/login" className="text-yellow-500 hover:underline">
+                Inicia sesión
+              </a>
+            </p>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
