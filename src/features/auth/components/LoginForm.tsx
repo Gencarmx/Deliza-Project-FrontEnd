@@ -1,21 +1,38 @@
 "use client";
-
 import React, { useState } from "react";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/button";
-import { useAuth } from "../hooks/useAuth";
 import { LucideLanguages } from "lucide-react";
 import Image from "next/image";
+import { useAuth } from "@/features/auth/hooks/useAuth"
 
 export default function LoginForm() {
-  const { login, loading, error } = useAuth();
-  const [email, setEmail] = useState("");
+  const { login, loading } = useAuth();
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
-  };
+    try {
+      console.log("intentando login:",userName, password)
+      await login(userName, password);
+      console.log("Login exitoso")
+      const token = localStorage.getItem("token");
+      console.log("Token en localStorage:", token);
+
+    } catch (err: unknown) {
+    
+    if (err instanceof Error) {
+      console.error("Error en login:", err.message);
+      setError("Credenciales incorrectas");
+    } else {
+      console.error("Error desconocido en login:", err);
+      setError("Ocurrió un error inesperado");
+    }
+  }
+};
 
   const [selectedOption, setSelectedOption] = useState<string | undefined>();
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +41,7 @@ export default function LoginForm() {
 
   const handleSelect = (option: string) => {
     setSelectedOption(option);
-    setIsOpen(false);
+    setIsOpen(false); 
   };
 
   return (
@@ -83,10 +100,10 @@ export default function LoginForm() {
                 <div className="flex items-center">
                   <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
                 <input
-                  type="email"
-                  value={email}
+                  type="text"
+                  value={userName}
                   placeholder="correo electronico"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setUserName(e.target.value)}
                   required
                   className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]" 
                 />
