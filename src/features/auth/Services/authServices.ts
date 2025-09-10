@@ -1,18 +1,28 @@
 import api from "../../../api/apiAuth";
-import { LoginResponse, User } from "../types/auth";
+import { LoginResponse, LoginResult } from "../types/auth";
+
+export interface LoginResponseApi {
+  code: string;
+  message: string;
+  data: {
+    token: string;
+  };
+}
 
 export async function LoginUser(
     userName: string,
     password: string
-): Promise<LoginResponse> {
-    const { data } = await api.post<LoginResponse>("/login", {
-        userName,
-        password,
-    });
-    return data;
-}
+): Promise<LoginResult> {
+    const res = await api.post<LoginResponse>("/login", {
+    userName,
+    password,
+  });
 
-export async function getProfile(): Promise<User> {
-    const { data } = await api.get<User>("/profile");
-    return data;
+    const token = res.data?.data?.token;
+  if (!token) {
+    throw new Error("No se recibió token del servidor");
+  }
+
+  return { token };
+  
 }

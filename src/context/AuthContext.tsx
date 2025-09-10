@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { User } from "@/features/auth/types/auth";
-import { LoginUser, getProfile } from "@/features/auth/Services/authServices";
+import { LoginUser } from "@/features/auth/Services/authServices";
 import { useRouter } from "next/navigation";
 
 interface AuthContextProps {
@@ -20,33 +20,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
+ useEffect(() => {
     if (typeof window === "undefined") return;
     const token = localStorage.getItem("token");
-    console.log("Token:", token)
-    if (token) {
-      getProfile()
-        .then((profile) => setUser(profile))
-        .catch(() => {
-          localStorage.removeItem("token");
-          setUser(null);
-        });
+    if (!token) {
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
   }, []);
 
 
-
   const login = async (userName: string, password: string) => {
-    const { token, user } = await LoginUser(userName, password);
-     if (typeof window !== "undefined") localStorage.setItem("token", token);
-    setUser(user);
-    router.push("/restaurante");
+    setLoading(true);
+    try {
+      const { token } = await LoginUser(userName, password);
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", token);
+      }
+
+      //Quita el comentario para comprobar que el login se genera
+      // console.log("Token obtenido:", token); 
+
+      router.push("/restaurante");
+    } catch (err: unknown) {
+      // manejo seguro del unknown
+      if (err instanceof Error) {
+        console.error("Error en login:", err.message);
+      } else {
+        console.error("Error desconocido en login:", err);
+      }
+      // re-lanzamos para que el LoginForm lo capture si quiere
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
     if (typeof window !== "undefined") localStorage.removeItem("token");
     setUser(null);
+    router.push("/login");
   };
 
   return (

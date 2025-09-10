@@ -10,12 +10,12 @@ export function middleware(req: NextRequest){
         return NextResponse.redirect(new URL("/login", req.url));
     }
     if(token && isLoginPage){
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(new URL("/restaurante", req.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/login"],
+    matcher: ["/restaurante/:path*", "/login"],
 }

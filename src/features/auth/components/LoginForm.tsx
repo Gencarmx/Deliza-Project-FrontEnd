@@ -16,11 +16,12 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("intentando login:",userName, password)
+      //Quita los comentarios para validar los datos
+      // console.log("intentando login:",userName, password)
       await login(userName, password);
       console.log("Login exitoso")
-      const token = localStorage.getItem("token");
-      console.log("Token en localStorage:", token);
+      // const token = localStorage.getItem("token");
+      // console.log("Token en localStorage:", token);
 
     } catch (err: unknown) {
     

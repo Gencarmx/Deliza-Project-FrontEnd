@@ -5,6 +5,13 @@ export interface User {
 }
 
 export interface LoginResponse {
+  code: string;
+  message: string;
+  data: {
+    token: string;
+  };
+}
+
+export interface LoginResult {
   token: string;
-  user: User;
 }
