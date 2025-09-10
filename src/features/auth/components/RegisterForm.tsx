@@ -84,7 +84,7 @@ export default function RegisterForm() {
         </div>
         <div className="flex items-center justify-center h-full w-full">
           <Card className="w-full max-w-xl p-6 space-y-2 ">
-            <h1 className="text-xl font-semibold text text-black text-start">
+            <h1 className="pb-8 text-xl font-semibold text text-black text-start">
               Crea tu cuenta
             </h1>
             {error && <p className="text-red-500 text-center">{error}</p>}
@@ -92,7 +92,7 @@ export default function RegisterForm() {
               {/** Datos de usuario */}
               <div>
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                   <input
                     type="text"
                     value={form.nombre}
@@ -104,7 +104,7 @@ export default function RegisterForm() {
                     }}
                     required
                     placeholder="Nombre Completo (Sin caracteres especiales)"
-                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                    className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
                   />
                 </div>
               </div>
@@ -135,41 +135,41 @@ export default function RegisterForm() {
 
               <div>
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                   <input
                     type="email"
                     value={form.correo_electronico}
                     onChange={handleChange("correo_electronico")}
                     required
                     placeholder="Correo Electrónico"
-                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                    className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
                   />
                 </div>
               </div>
               <div>
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                   <input
                     type="tel"
                     value={form.numero_telefono}
                     onChange={handleChange("numero_telefono")}
                     required
                     placeholder="Número de Teléfono"
-                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                    className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
                   />
                 </div>
               </div>
 
-              <div>
+              <div className="pb-5">
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                   <input
                     type="password"
                     value={form.contrasena}
                     onChange={handleChange("contrasena")}
                     required
                     placeholder="Contraseña"
-                    className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                    className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
                   />
                 </div>
               </div>
@@ -255,14 +255,14 @@ export default function RegisterForm() {
 
               <Button
                 type="submit"
-                className="w-full h-25 py-2 text-black hover:bg-[#947955]"
+                className="w-full h-18 py-2 text-black hover:bg-[#947955]"
                 disabled={loading}
               >
                 {loading ? "Creando…" : "Registrarse"}
               </Button>
             </form>
 
-            <p className="text-lg text-center text-gray-600">
+            <p className="text-lg text-center text-gray-600 pt-5">
               ¿Ya tienes cuenta?{" "}
               <a href="/login" className="text-yellow-500 hover:underline">
                 Inicia sesión

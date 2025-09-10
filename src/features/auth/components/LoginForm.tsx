@@ -98,33 +98,33 @@ export default function LoginForm() {
               <div>
                 
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                 <input
                   type="text"
                   value={userName}
                   placeholder="correo electronico"
                   onChange={(e) => setUserName(e.target.value)}
                   required
-                  className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]" 
+                  className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]" 
                 />
                 </div>
               </div>
-              <div className="pb-15">       
+              <div className="pb-10">       
                 <div className="flex items-center">
-                  <div className=" mt-1 w-2 h-25 bg-[#976b31]"></div>
+                  <div className=" mt-1 w-2 h-15 bg-[#976b31]"></div>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="contraseña"
-                  className="mt-1 block h-25 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
+                  className="mt-1 block h-15 w-full rounded-r border border-black px-3 py-2 text-black focus:outline-none focus:bg-[#bdbdbd]"
                 />
                 </div>
               </div>
               <Button
                 type="submit"
-                className="w-full h-20 py-2 text-black hover:bg-[#947955]"
+                className="w-full h-18 py-2 text-black hover:bg-[#947955]"
                 disabled={loading}
               >
                 {loading ? "Ingresando…" : "Iniciar Sesión"}
